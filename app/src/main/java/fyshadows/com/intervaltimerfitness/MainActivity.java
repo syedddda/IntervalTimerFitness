@@ -1,17 +1,44 @@
 package fyshadows.com.intervaltimerfitness;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    EditText height;
+    EditText weight;
+    Button bmiView;
+    //String myValues[];
+    List<Integer> myValues = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        height = (EditText) findViewById(R.id.height);
+        weight = (EditText) findViewById(R.id.weight);
+        bmiView = (Button) findViewById(R.id.bmiShow);
+
+        bmiView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showBmi();
+            }
+        });
+
+
     }
 
     @Override
@@ -34,5 +61,18 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void showBmi() {
+
+        Integer ht = Integer.parseInt(height.getText().toString());
+        Integer wt = Integer.parseInt(weight.getText().toString());
+
+        myValues.add(ht);
+        myValues.add(wt);
+
+        Intent intent = new Intent(this, MyBmi.class);
+        intent.putIntegerArrayListExtra("Values", (ArrayList<Integer>) myValues);
+        startActivity(intent);
     }
 }
